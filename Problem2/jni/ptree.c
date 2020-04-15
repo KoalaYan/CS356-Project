@@ -1,8 +1,8 @@
-#include<linux/module.h>
-#include<linux/kernel.h>
-#include<linux/init.h>
-#include<linux/sched.h>
-#include<linux/unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/syscall.h>
+#include<unistd.h>
+#include<string.h>
 
 #define __NR_pstreecall 356
 
@@ -21,17 +21,18 @@ struct prinfo{
 void printTree(struct prinfo *buf,int *nr)
 {
 	//record the generation of each process
-	int gene[500] = {0};
+	int gene[1000] = {0};
 	int tmp_pid;
-	for(int i = 1;i < *nr;i++){
+	int i,j;
+	for(i = 1;i < *nr;i++){
 		tmp_pid = buf[i].parent_pid;
 		gene[i] = gene[tmp_pid] + 1;
 	}
 
 	//print the tree
-	for(int i = 0;i < *nr;i++){
-		for(j =0 ;j < i;j++)
-			printf('\t');
+	for(i = 0;i < *nr;i++){
+		for(j = 0;j < gene[i];j++)
+			printf("\t");
 		printf("%s,%d,%ld,%d,%d,%d,%d\n",buf[i].comm,buf[i].pid,buf[i].state,buf[i].parent_pid,
 		buf[i].first_child_pid,buf[i].next_sibling_pid,buf[i].uid);
 	}
@@ -39,7 +40,7 @@ void printTree(struct prinfo *buf,int *nr)
 
 int main(){
 	//Memory allocation
-	struct print *buf = malloc(500*sizeof(struct prinfo));
+	struct print *buf = malloc(1000*sizeof(struct prinfo));
 	int *nr = malloc(sizeof(int));
 	if(buf == NULL || nr == NULL){
 		printf("Fail to allocate memory.\n");
