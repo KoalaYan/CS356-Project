@@ -6,7 +6,7 @@
 #include<linux/list.h>
 
 MODULE_LICENSE("Dual BSD/GPL");
-#define __NR_hellocall 356
+#define __NR_pstreecall 356
 
 struct prinfo{
 	pid_t parent_pid;	//process id of parent
@@ -81,7 +81,7 @@ static int ptree(struct prinfo *buf,int *nr)
 	 * kcalloc(size_t n, size_t size, gfp_t flags) : allocate array memory and set zero
 	 * kzalloc(size_t size, gfp_t flags) : allocate memory and set zero
 	**/
-	struct prinfo *k_buf = kcalloc(500, sizeof(*buf),GFP_kernel);
+	struct prinfo *k_buf = kcalloc(500, sizeof(struct prinfo),GFP_kernel);
 	int *k_nr = kzalloc(sizeof(int),GFP_KERNEL);
 	if(k_buf == NULL || k_nr == NULL){
 		printk("Fail to allocate memory.\n");
@@ -96,7 +96,7 @@ static int ptree(struct prinfo *buf,int *nr)
 
 	//copy from kernel to user
 	//unsigned long copy_to_user(void __user *to, const void *from, unsigned long n);
-	if(copy_to_user(buf,k_buf,500*sizeof(*buf))){
+	if(copy_to_user(buf,k_buf,500*sizeof(struct prinfo))){
 		printk("Fail to copy from kernel to user.\n");
 		return -1;
 	}
