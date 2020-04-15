@@ -4,6 +4,7 @@
 #include<linux/sched.h>
 #include<linux/unistd.h>
 #include<linux/list.h>
+
 MODULE_LICENSE("Dual BSD/GPL");
 #define __NR_hellocall 356
 
@@ -29,15 +30,26 @@ void translate(struct task_struct *ts,struct prinfo *pf){
 	pf->pid = ts->pid;
 		
 	//sched.h file line 1377, list.h file line 186 & line 345
-	if(list_empty(&(ts->children))
-			pf->first_child_pid = 0;
-	else
-			pf->first_child_pid = list_entry(&(ts->children)->next,struct task_struct,children)->pid;
-	if(list_empty(&(ts->sibling))
-			pf->next_sibling_pid = 0;
+	if(list_empty(&(ts->children)){
+		pf->first_child_pid = 0;
+	}
+	else{
+		//list_entry helps to find which task_struct the line_head pointer in
+		pf->first_child_pid = list_entry(&(ts->children)->next,struct task_struct,children)->pid;
+	}
+
+	if(list_empty(&(ts->sibling)){
+		pf->next_sibling_pid = 0;
+	}
 	else
 	{
-			
+		pid_t next_sibling_pid = list_entry(&ts->sibling,struct task_struct,sibling)->pid;
+		if(next_sibling_pid == pf->pid){
+			pf->next_sibling_pid = 0;
+		}
+		else{
+			pf->next_sibling_pid = next_sibling_pid;
+		}
 	}
 
 	//sched.h file line 1266
@@ -47,15 +59,26 @@ void translate(struct task_struct *ts,struct prinfo *pf){
 	//sched.h file line 2360
 	get_task_comm(pf->comm,ts);
 }
-static int ptreeDFS(struct task_struct *init_task,struct prinfo *buf,int *nr)
+
+//DFS for ptree
+void ptreeDFS(struct task_struct *ts,struct prinfo *buf,int *nr)
 {
-	
+	struct task_struct *temp;
+	struct list_head *p =  &(ts->children)->next;
+
+	translate(ts,buf+(*nr));
+	*nr = *nr + 1;
+
+	while(p != &(ts->children)){
+		temp = list_entry(p,struct task_struct,children);
+		ptreeDFS(temp,buf,nr);
+		p = p->next;
+	}
 }
 
 static int (*oldcall)(void);
 static int ptree(struct prinfo *buf,int *nr)
 {
-	printk(KERN_INFO "at least been called!\n");
 	ptreeDFS(&init_task,buf,nr);
 	return 0;
 }
