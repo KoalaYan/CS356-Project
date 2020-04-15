@@ -1,48 +1,36 @@
-swapper,0,0,0,-1068766088,0,0
-	init,1,1,0,-301872128,1,0
+swapper,0,0,0,1,0,0
+	init,1,1,0,45,1,0
 		ueventd,45,1,1,0,45,0
-		logd,61,1,1,0,61,1036
-		vold,62,1,1,0,62,0
-		healthd,70,1,1,0,70,0
-		lmkd,71,1,1,0,71,0
-		servicemanager,72,1,1,0,72,1000
-		surfaceflinger,73,1,1,0,73,1000
-		qemud,75,1,1,0,75,0
-		sh,78,1,1,0,78,2000
-		adbd,79,1,1,-308041728,79,0
-	sh,1126,1,79,-431783936,1126,0
-	ptreeARM,1132,0,1126,0,1132,0
-		netd,80,1,1,0,80,0
-		debuggerd,81,1,1,0,81,0
-		rild,82,1,1,0,82,1001
-		drmserver,83,1,1,0,83,1019
-		mediaserver,84,1,1,0,84,1013
-		installd,85,1,1,0,85,0
-		keystore,86,1,1,0,86,1017
-		main,87,1,1,-307632128,87,0
-	system_server,234,1,87,0,234,1000
-	ndroid.systemui,463,1,87,0,463,10013
-	externalstorage,490,1,87,0,490,10006
-	putmethod.latin,666,1,87,0,666,10032
-	m.android.phone,674,1,87,0,674,1001
-	droid.launcher3,686,1,87,0,686,10007
-	d.process.acore,715,1,87,0,715,10002
-	m.android.music,782,1,87,0,782,10035
-	d.process.media,804,1,87,0,804,10005
-	id.printspooler,858,1,87,0,858,10040
-	droid.deskclock,878,1,87,0,878,10023
-	.quicksearchbox,901,1,87,0,901,10042
-	ndroid.settings,916,1,87,0,916,1000
-	ndroid.calendar,930,1,87,0,930,10019
-	.android.dialer,971,1,87,0,971,10004
-	ndroid.keychain,978,1,87,0,978,1000
-	gedprovisioning,1006,1,87,0,1006,10008
-	m.android.email,1029,1,87,0,1029,10027
-	ndroid.exchange,1047,1,87,0,1047,10029
-		gatekeeperd,88,1,1,0,88,1000
+		logd,62,1,1,0,62,1036
+		vold,63,1,1,0,63,0
+		healthd,67,1,1,0,67,0
+		lmkd,68,1,1,0,68,0
+		servicemanager,69,1,1,0,69,1000
+		surfaceflinger,70,2,1,0,70,1000
+		qemud,72,1,1,0,72,0
+		sh,76,1,1,0,76,2000
+		adbd,77,1,1,245,77,0
+	sh,245,1,77,900,245,0
+	ptreeARM,900,0,245,0,900,0
+		netd,78,1,1,0,78,0
+		debuggerd,79,1,1,0,79,0
+		rild,80,1,1,0,80,1001
+		drmserver,81,1,1,0,81,1019
+		mediaserver,82,1,1,0,82,1013
+		installd,83,1,1,0,83,0
+		keystore,84,1,1,0,84,1017
+		main,85,1,1,230,85,0
+	system_server,230,1,85,0,230,1000
+	externalstorage,491,1,85,0,491,10006
+	putmethod.latin,666,1,85,0,666,10032
+	droid.launcher3,704,1,85,0,704,10007
+	d.process.acore,741,1,85,0,741,10002
+	droid.deskcloc,901,1,85,0,901,10023
+		gatekeeperd,86,1,1,0,86,1000
 		perfprofd,89,1,1,0,89,0
 		fingerprintd,90,1,1,0,90,1000
-	kthreadd,2,1,0,-301873152,2,0
+		bootanimation,114,1,1,0,114,1003
+	kthreadd,2,1,0,3,2,0
 			ksoftirqd/0,3,1,2,0,3,0
 			kworker/0:0,4,1,2,0,4,0
 			kworker/u:0,5,1,2,0,5,0
@@ -66,12 +54,12 @@ swapper,0,0,0,-1068766088,0,0
 			jbd2/mtdblock0-,47,1,2,0,47,0
 			ext4-dio-unwrit,48,1,2,0,48,0
 			flush-31:1,51,1,2,0,51,0
-			jbd2/mtdblock1-,53,1,2,0,53,0
-			ext4-dio-unwrit,54,1,2,0,54,0
-			flush-31:2,57,1,2,0,57,0
-			jbd2/mtdblock2-,59,1,2,0,59,0
-			ext4-dio-unwrit,60,1,2,0,60,0
-			kauditd,68,1,2,0,68,0
-			kworker/0:2,162,1,2,0,162,0
-			flush-179:0,821,1,2,0,821,0
+			kworker/0:2,53,1,2,0,53,0
+			jbd2/mtdblock1-,54,1,2,0,54,0
+			ext4-dio-unwrit,55,1,2,0,55,0
+			flush-31:2,58,1,2,0,58,0
+			jbd2/mtdblock2-,60,1,2,0,60,0
+			ext4-dio-unwrit,61,1,2,0,61,0
+			kauditd,98,1,2,0,98,0
+			flush-179:0,886,1,2,0,886,0
 

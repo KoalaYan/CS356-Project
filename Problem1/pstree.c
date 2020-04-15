@@ -36,7 +36,7 @@ void translate(struct task_struct *ts,struct prinfo *pf){
 	}
 	else{
 		//list_entry helps to find which task_struct the line_head pointer in
-		pf->first_child_pid = list_entry((&ts->children)->next,struct task_struct,children)->pid;
+		pf->first_child_pid = list_entry((&ts->children)->next,struct task_struct,sibling)->pid;
 	}
 
 	if(list_empty(&(ts->sibling))){
@@ -65,22 +65,16 @@ void translate(struct task_struct *ts,struct prinfo *pf){
 void pstreeDFS(struct task_struct *ts,struct prinfo *buf,int *nr)
 {
 	struct task_struct *temp;
-	struct list_head *p ;//=  (&ts->children)->next;
+	struct list_head *p =  (&ts->children)->next;
 
-	translate(ts,&buf[*nr]);//translate(ts,buf+(*nr));
+	translate(ts,&buf[*nr]);
 	*nr = *nr + 1;
 
-	list_for_each(p,&ts->children)
-	{
+	while(p != (&ts->children) && p != NULL){
 		temp = list_entry(p,struct task_struct,sibling);
 		pstreeDFS(temp,buf,nr);
+		p = p->next;
 	}
-
-	// while(p != &ts->children && p != NULL){
-	// 	temp = list_entry(p,struct task_struct,children);
-	// 	pstreeDFS(temp,buf,nr);
-	// 	p = p->next;
-	// }
 
 }
 
