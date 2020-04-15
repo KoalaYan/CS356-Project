@@ -54,7 +54,7 @@ void translate(struct task_struct *ts,struct prinfo *pf){
 
 	//sched.h file line 1266
 	pf->state = ts->state;
-	//cred.h file line 125, fandaimafantule...
+	//cred.h file line 125
 	pf->uid = ts->cred->uid;
 	//sched.h file line 2360
 	get_task_comm(pf->comm,ts);
@@ -79,7 +79,42 @@ void ptreeDFS(struct task_struct *ts,struct prinfo *buf,int *nr)
 static int (*oldcall)(void);
 static int ptree(struct prinfo *buf,int *nr)
 {
-	ptreeDFS(&init_task,buf,nr);
+	/**
+	 * Memory distribution and allocation of Linux kernel address space
+	 * kcalloc(size_t n, size_t size, gfp_t flags) : allocate array memory and set zero
+	 * kzalloc(size_t size, gfp_t flags) : allocate memory and set zero
+	**/
+	struct prinfo *k_buf = kcalloc(500, sizeof(*buf),GFP_kernel);
+	int *k_nr = kzalloc(sizeof(int),GFP_KERNEL);
+	if(k_buf == NULL || k_nr == NULL){
+		printk("Fail to allocate memory.\n");
+		return -1;
+	}
+	*k_nr = 0;
+	
+	//DFS+translation
+	read_lock(&tasklist_lock);
+	ptreeDFS(&init_task,k_buf,k_nr);
+	read_unlock(&tasklist_lock);
+
+	//copy from kernel to user
+	//unsigned long copy_to_user(void __user *to, const void *from, unsigned long n);
+	if(copy_to_user(buf,k_buf,500*sizeof(*buf))){
+		printk("Fail to copy from kernel to user.\n");
+		return -1;
+	}
+	if(copy_to_user(nr,k_nr,sizeof(int))){
+		printk("Fail to copy from kernel to user.\n");
+		return -1;
+	}
+
+	/**
+	 * Reclaim allocated memory
+	 * void kfree(const void *objp) : Memory release function
+	**/
+	kfree(k_nr);
+	kfree(k_buf);
+
 	return 0;
 }
 
