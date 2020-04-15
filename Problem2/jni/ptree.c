@@ -21,7 +21,7 @@ struct prinfo{
 void printTree(struct prinfo *buf,int *nr)
 {
 	//record the generation of each process
-	int gene[1000] = {0};
+	int gene[2000] = {0};
 	int tmp_pid;
 	int i,j;
 	for(i = 1;i < *nr;i++){
@@ -40,7 +40,7 @@ void printTree(struct prinfo *buf,int *nr)
 
 int main(){
 	//Memory allocation
-	struct print *buf = malloc(1000*sizeof(struct prinfo));
+	struct print *buf = malloc(2000*sizeof(struct prinfo));
 	int *nr = malloc(sizeof(int));
 	if(buf == NULL || nr == NULL){
 		printf("Fail to allocate memory.\n");
