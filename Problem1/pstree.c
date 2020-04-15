@@ -65,22 +65,22 @@ void translate(struct task_struct *ts,struct prinfo *pf){
 void pstreeDFS(struct task_struct *ts,struct prinfo *buf,int *nr)
 {
 	struct task_struct *temp;
-	struct list_head *p =  (&ts->children)->next;
+	struct list_head *p ;//=  (&ts->children)->next;
 
 	translate(ts,&buf[*nr]);//translate(ts,buf+(*nr));
 	*nr = *nr + 1;
 
-	// list_for_each(p,&ts->children)
-	// {
-	// 	temp = list_entry(p,struct task_struct,sibling);
-	// 	pstreeDFS(temp,buf,nr);
-	// }
-
-	while(p != &ts->children && p != NULL){
-		temp = list_entry(p,struct task_struct,children);
+	list_for_each(p,&ts->children)
+	{
+		temp = list_entry(p,struct task_struct,sibling);
 		pstreeDFS(temp,buf,nr);
-		p = p->next;
 	}
+
+	// while(p != &ts->children && p != NULL){
+	// 	temp = list_entry(p,struct task_struct,children);
+	// 	pstreeDFS(temp,buf,nr);
+	// 	p = p->next;
+	// }
 
 }
 
@@ -92,7 +92,7 @@ static int pstree(struct prinfo *buf,int *nr)
 	 * kcalloc(size_t n, size_t size, gfp_t flags) : allocate array memory and set zero
 	 * kzalloc(size_t size, gfp_t flags) : allocate memory and set zero
 	**/
-	struct prinfo *k_buf = kcalloc(2000, sizeof(struct prinfo),GFP_KERNEL);
+	struct prinfo *k_buf = kcalloc(1000, sizeof(struct prinfo),GFP_KERNEL);
 	int *k_nr = kzalloc(sizeof(int),GFP_KERNEL);
 	if(k_buf == NULL || k_nr == NULL){
 		printk("Fail to allocate memory.\n");
@@ -107,7 +107,7 @@ static int pstree(struct prinfo *buf,int *nr)
 
 	//copy from kernel to user
 	//unsigned long copy_to_user(void __user *to, const void *from, unsigned long n);
-	if(copy_to_user(buf,k_buf,2000*sizeof(struct prinfo))){
+	if(copy_to_user(buf,k_buf,1000*sizeof(struct prinfo))){
 		printk("Fail to copy from kernel to user.\n");
 		return -1;
 	}
