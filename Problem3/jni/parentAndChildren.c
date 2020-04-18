@@ -22,7 +22,7 @@ int main(){
     else{
         //printf("debugger4.\n");
         pid_t pid = getpid();
-        printf("518030910094 Parent%d.\n",pid);
+        printf("518030910094 Parent %d.\n",pid);
     }
 
     return 0;
