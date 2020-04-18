@@ -24,12 +24,29 @@ void printTree(struct prinfo *buf,int *nr)
 	int gene[1000] = {0};
 	int tmp_pid;
 	int i,j;
+	int parent[1000] = {0};
+	parent[0] = buf[0].pid;
+	int num = 1;
+	
 	for(i = 1;i < *nr;i++){
 		tmp_pid = buf[i].parent_pid;
-		gene[i] = gene[tmp_pid] + 1;
+		j = num;
+		while(j > 0 && tmp_pid != parent[j-1]){
+			j--;
+		}
+		if(j==0){
+			gene[i] = -1;
+		}
+		else{
+			num = j;
+			gene[i] = j;
+			parent[num] = buf[i].pid;
+			num++;
+		}
 	}
 
 	//print the tree
+	printf("There are %d processes.\n",*nr);
 	for(i = 0;i < *nr;i++){
 		for(j = 0;j < gene[i];j++)
 			printf("\t");

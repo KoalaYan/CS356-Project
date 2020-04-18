@@ -44,8 +44,11 @@ void translate(struct task_struct *ts,struct prinfo *pf){
 	}
 	else
 	{
-		pid_t next_sibling_pid = list_entry(&(ts->sibling),struct task_struct,sibling)->pid;
-		if(next_sibling_pid == pf->parent_pid){
+		pid_t next_sibling_pid = list_entry((&ts->sibling)->next,struct task_struct,sibling)->pid;
+		//because we don't know the next is whether sibling or parent, if is parent , (&ts->sibling)->next is pointing to parent's children space...
+		pid_t maybeParent_pid = list_entry((&ts->sibling)->next,struct task_struct,children)->pid;
+		
+		if(next_sibling_pid == pf->parent_pid || maybeParent_pid == pf->parent_pid){
 			pf->next_sibling_pid = 0;
 		}
 		else{
@@ -70,6 +73,11 @@ void pstreeDFS(struct task_struct *ts,struct prinfo *buf,int *nr)
 	translate(ts,&buf[*nr]);
 	*nr = *nr + 1;
 
+	// list_for_each(p, &ts->children) 
+    // {
+	// 	temp = list_entry(p,struct task_struct,sibling);
+	// 	pstreeDFS(temp,buf,nr);
+	// }
 	while(p != (&ts->children) && p != NULL){
 		temp = list_entry(p,struct task_struct,sibling);
 		pstreeDFS(temp,buf,nr);
@@ -125,7 +133,7 @@ static int addsyscall_init(void)
 	long *syscall = (long*)0xc000d8c4;
 	oldcall = (int(*)(void))(syscall[__NR_pstreecall]);
 	syscall[__NR_pstreecall] = (unsigned long )pstree;
-	printk(KERN_INFO "modelu load!\n");
+	printk(KERN_INFO "module load!\n");
 	return 0;
 }
 

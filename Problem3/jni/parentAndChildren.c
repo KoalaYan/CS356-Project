@@ -4,7 +4,6 @@
 #include<unistd.h>
 #include<string.h>
 
-#define __NR_pstreecall 356
 
 int main(){
     //printf("debugger0.\n");
@@ -18,7 +17,7 @@ int main(){
         //printf("debugger3.\n");
         pid_t pid = getpid();
         printf("518030910094 Children %d.\n",pid);
-        execl("/data/misc/ptreeARM",NULL);
+        execl("/data/misc/ptreeARM","ptreeARM",NULL);
     }
     else{
         //printf("debugger4.\n");
