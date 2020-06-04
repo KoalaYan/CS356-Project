@@ -10,7 +10,7 @@
 #include<linux/gfp.h>
 
 MODULE_LICENSE("Dual BSD/GPL");
-#define __NR_pstreecall 356
+#define __NR_pstreecall 380
 
 struct prinfo{
 	pid_t parent_pid;	//process id of parent

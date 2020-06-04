@@ -4,7 +4,7 @@
 #include<unistd.h>
 #include<string.h>
 
-#define __NR_pstreecall 356
+#define __NR_pstreecall 380
 
 struct prinfo{
 	pid_t parent_pid;	//process id of parent
@@ -57,7 +57,7 @@ void printTree(struct prinfo *buf,int *nr)
 
 int main(){
 	//Memory allocation
-	struct print *buf = malloc(1000*sizeof(struct prinfo));
+	struct prinfo *buf = malloc(1000*sizeof(struct prinfo));
 	int *nr = malloc(sizeof(int));
 	if(buf == NULL || nr == NULL){
 		printf("Fail to allocate memory.\n");
