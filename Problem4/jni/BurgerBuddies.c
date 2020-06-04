@@ -81,13 +81,16 @@ void *customer(void *argv){
 
 void *killer(){
     sem_wait(&sem_kill);
+   
     int i;
     for(i = 0;i < n_cook;i++){
-        pthread_kill(thread_cook[i],0);
+        pthread_kill(thread_cook[i],SIGQUIT);
     }
     for(i = 0;i < n_cashier;i++){
-        pthread_kill(thread_cashier[i],0);
+        pthread_kill(thread_cashier[i],SIGQUIT);
     }
+    //printf("killer\n");
+    return;
 }
 
 int main(int argc, char **argv){
@@ -157,7 +160,7 @@ int main(int argc, char **argv){
         pthread_join(thread_customer[i],NULL);
     }
 
-    
+    printf("Finishing.\n");
 
     free(thread_cook);
     free(thread_cashier);
@@ -175,7 +178,7 @@ int main(int argc, char **argv){
     sem_destroy(&mutex);
     sem_destroy(&sem_kill);
     
-    printf("Finishing.\n");
+    
 
     return 0;
 }
