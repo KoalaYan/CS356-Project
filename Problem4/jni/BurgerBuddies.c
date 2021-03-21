@@ -29,9 +29,15 @@ int *id_cook;
 int *id_cashier;
 int *id_customer;
 
+void handle_quit(){ 
+    // Since Android doesn't implement pthread_cancel, 
+    // we need to modify SIGQUIT to prevent killing the whole process
+    pthread_exit(NULL);
+}
 
 void *cook(void *argv){
     int id = *(int*)argv;
+    signal(SIGQUIT,handle_quit); // modify default SIGQUIT handeler
     //printf("Cook[%d].\n", id);
     while(1){
         sem_wait(&sem_rack_full);
@@ -45,6 +51,7 @@ void *cook(void *argv){
 
 void *cashier(void *argv){
     int id = *(int*)argv;
+    signal(SIGQUIT,handle_quit); // modify default SIGQUIT handeler
     //printf("Cashier[%d].\n",id);
     while(1){
          sem_wait(&sem_order);
