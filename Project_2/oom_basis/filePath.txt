@@ -1,0 +1,6 @@
+calls.S: /kernel/goldfish/arch/arm/kernel
+init_task.c: /kernel/goldfish/arch/arm/kernel
+sched.h: /kernel/goldfish/include/linux
+sys_arm.c: /kernel/goldfish/arch/arm/kernel
+unistd.h: /kernel/goldfish/arch/arm/include/asm
+page_alloc.c: /kernel/goldfish/mm
